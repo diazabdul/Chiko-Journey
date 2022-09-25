@@ -33,7 +33,7 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        _tileObject.GetComponentInChildren<Text>().text = tile.name;
+        _tileObject.GetComponentInChildren<Text>().text = tile.TileName;
         _tileObject.SetActive(true);
 
         if (tile.OccupiedUnit)

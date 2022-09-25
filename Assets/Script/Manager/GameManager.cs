@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
             case GameState.SpawnObstacle:
                 UnitManager.Instance.SpawnObstacle();
                 break;
+            case GameState.MovementHeroes:
+                UnitManager.Instance.MoveHeroes();
+                break;
             case GameState.HeroesTurn:
                 break;
             case GameState.EnemiesTurn:
@@ -56,5 +59,6 @@ public enum GameState
     SpawnObjective = 3,
     SpawnObstacle = 4,
     HeroesTurn = 5,
-    EnemiesTurn = 6
+    EnemiesTurn = 6,
+    MovementHeroes = 7
 }

@@ -31,60 +31,15 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < _height; y++)
             {
-                //for (int i = 0; i < _x.Length; i++)
-                //{                            
-                //    if (_x[i]==x&&_y[i]==y)
-                //    {
-                //        var spawnedMountaint = Instantiate(mountaint, new Vector3(x, y), Quaternion.identity);
-                //        spawnedMountaint.name = $"Tile {x} {y}";
-                //        spawnedMountaint.Init(x, y);
-                //        _tiles[new Vector2(x, y)] = spawnedMountaint;
-                //        Debug.Log(_height + _width.ToString());
-                //        break;
-                //    }
-
-                //    else {                        
+                           
                 var spawnedGrass = Instantiate(grass, new Vector3(x, y), Quaternion.identity);
                 spawnedGrass.name = $"Tile {x} {y}";
                 spawnedGrass.Init(x, y);
                 _tiles[new Vector2(x, y)] = spawnedGrass;
-                //break;
-                //}
-
-                //}
-
-                //var spawnedTile = Instantiate(grass, new Vector3(x, y), Quaternion.identity);
-                //spawnedTile.name = $"Tile {x} {y}";
-                //spawnedTile.Init(x, y);
-                //_tiles[new Vector2(x, y)] = spawnedTile;     
+                
             }
-        }
-            
-           
-        //for (int x = 0; x < _width; x++)
-        //{
-        //    for (int y = 0; y < _height; y++)
-        //    {
-        //        var randomTile = Random.Range(0, 6) == 3 ? _mountainTile : _grassTile;
-        //        var mountaint = _mountainTile;
-        //        var grass = _grassTile;
-        //        if (x == _x[x] && y == _y[y])
-        //        {
-
-
-        //        }
-        //        else
-        //        {
-        //            var spawnedTile = Instantiate(grass, new Vector3(x, y), Quaternion.identity);
-        //            spawnedTile.name = $"Tile {x} {y}";
-        //            spawnedTile.Init(x, y);
-        //            _tiles[new Vector2(x, y)] = spawnedTile;
-        //        }
-
-        //        var spawnedTile = Instantiate(tiling, new Vector3(x, y), Quaternion.identity);
-
-        //    }
-        //}
+        }   
+     
 
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
 
@@ -94,6 +49,10 @@ public class GridManager : MonoBehaviour
     public Tile GetHeroRespawnTile()
     {        
         return _tiles.Where(t => t.Key.x == 0 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+    }
+    public Tile GetHeroMoveTile(float x, float y)
+    {
+        return _tiles.Where(t => t.Key.x == x && t.Key.y == y).OrderBy(t => Random.value).First().Value;
     }
 
     public Tile GetEnemyRespawnTile()
