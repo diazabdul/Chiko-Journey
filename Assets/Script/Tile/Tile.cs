@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
 {
     public string TileName;
     [SerializeField] protected SpriteRenderer _renderer;
-    [SerializeField] private GameObject _highlight;
+    [SerializeField] public GameObject _highlight;
     [SerializeField] private bool _isWalkable;
     public bool _done = false;
     public BaseUnit OccupiedUnit;
@@ -16,6 +16,7 @@ public class Tile : MonoBehaviour
     public string nameTile;
     public bool check = false;
     int count = 0;
+    public bool way = true;
 
     public enum state
     {
@@ -36,7 +37,7 @@ public class Tile : MonoBehaviour
     {
         
     }
-    void highlight()
+    public void highlight()
     {
         if (curState == state.moving)
         {
@@ -85,16 +86,19 @@ public class Tile : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        if (UnitManager.Instance.getState() == UnitManager.state.freeze)
-        {
-            if (count == 0) {
-            UnitManager.Instance.MoveHeroes();
-                Debug.Log("Exe");
-                count = 1;
-                
+            if (UnitManager.Instance.getState() == UnitManager.state.freeze)
+            {
+                if (count == 0)
+                {
+                    UnitManager.Instance.MoveHeroes();
+                    Debug.Log("Exe");
+                    count = 1;
 
+
+                }
             }
-        }
+     
+        
     }
 
     private void OnMouseOver()
@@ -222,6 +226,10 @@ public class Tile : MonoBehaviour
             var hero = (BaseHero)OccupiedUnit;
             Destroy(hero.gameObject);
         }
-
+    }
+    public void DeleteObjective()
+    {
+        var objective = (BaseObjective)OccupiedUnit;
+        Destroy(objective.gameObject);
     }
 }

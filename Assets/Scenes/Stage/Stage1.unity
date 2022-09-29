@@ -1148,12 +1148,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b603345b95b1bb44896dfb9acbc70965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countObjective: 3
   OccupiedUnit: {fileID: 0}
   SelectedHero: {fileID: 0}
-  _done: 0
   _data: []
   _tiles: []
+  Objective:
+  - {x: 2, y: 0}
+  - {x: 4, y: 2}
+  - {x: 6, y: 1}
+  Hero:
+  - {x: 0, y: 0}
+  Obstacle:
+  - {x: 2, y: 1}
+  Flag:
+  - {x: 7, y: 1}
 --- !u!4 &1096332283
 Transform:
   m_ObjectHideFlags: 0

@@ -9,22 +9,23 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
 
     private List<ScriptableUnit> _units;
-    public int _countObjective;
+    //public int _countObjective;
 
     public BaseUnit OccupiedUnit;
 
     public BaseHero SelectedHero;
 
-    public bool _done = false;
-    public bool dest = false;
+
 
     public List<Vector2> _data = new List<Vector2>();
     public List<Tile> _tiles = new List<Tile>();
-    public Tile randomSpawnTile;
+    private Tile spawnHero, spawnObjective;
+    
+    public Vector2[] Objective,Hero,Obstacle,Flag;
+
     private string temp;
 
-    string[] movement;
-    int counting = 0;
+
     public enum state
     {
         first,
@@ -62,32 +63,55 @@ public class UnitManager : MonoBehaviour
     public void SpawnHeroes()
     {
         
-            var heroCount = 1;
-            for (int i = 0; i < heroCount; i++)
+            
+            for (int i = 0; i < Hero.Length; i++)
             {
                 var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
                 var spawnedHero = Instantiate(randomPrefab);
-                randomSpawnTile = GridManager.Instance.GetHeroRespawnTile();
+                spawnHero = GridManager.Instance.GetHeroRespawnTile(Hero[i].x, Hero[i].y);
 
-                randomSpawnTile.SetUnit(spawnedHero);
+                spawnHero.SetUnit(spawnedHero);
             }
 
             GameManager.Instance.ChangeState(GameState.SpawnFlag);            
         
         
     }
+    public void SpawnObjective()
+    {
+        //var enemyCount = 2;
+        for (int i = 0; i < Objective.Length; i++)
+        {
+            var randomPrefab = GetRandomUnit<BaseObjective>(Faction.Objective);
+            var spawnedObjective = Instantiate(randomPrefab);
+            spawnObjective = GridManager.Instance.GetObjectiveRespawnTile(Objective[i].x, Objective[i].y);
+
+            spawnObjective.SetUnit(spawnedObjective);
+        }
+        GameManager.Instance.ChangeState(GameState.SpawnObstacle);
+    }
     public void MoveHeroes()
     {
-        randomSpawnTile.DeleteUnit();
+        spawnHero.DeleteUnit();
         //SpawnHeroes();
         
+        
         StartCoroutine(wait(1));
+        
     }
     IEnumerator wait(float time)
     {
         for (int i = 0; i < _data.Count; i++)
-        {          
-            
+        {
+            for (int x = 0; x < Objective.Length; x++)
+            {
+                if (Objective[x] == _data[i])
+                {
+                    var destroyz = GridManager.Instance.GetObjectiveRespawnTile(Objective[x].x, Objective[x].y);
+                    destroyz.DeleteObjective();
+                }
+            }
+
             var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
             var spawnedHero = Instantiate(randomPrefab);
             var randomSpawnTile = GridManager.Instance.GetHeroMoveTile(_data[i].x, _data[i].y);
@@ -98,6 +122,10 @@ public class UnitManager : MonoBehaviour
             
             var destroy = GridManager.Instance.GetHeroMoveTile(_data[i].x, _data[i].y);
             destroy.DeleteUnit();
+            _tiles[i]._highlight.SetActive(false);
+            
+            
+
 
         }
     }
@@ -105,38 +133,24 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnFlag()
     {
-        var enemyCount = 1;
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < Flag.Length; i++)
         {
             var randomPrefab = GetRandomUnit<BaseFinish>(Faction.Finish);
             var spawnedEnemy = Instantiate(randomPrefab);
-            var randomSpawnTile = GridManager.Instance.GetEnemyRespawnTile();
+            var randomSpawnTile = GridManager.Instance.GetFlagRespawnTile(Flag[i].x, Flag[i].y);
 
             randomSpawnTile.SetUnit(spawnedEnemy);
         }
         GameManager.Instance.ChangeState(GameState.SpawnObjective);
     }
-    public void SpawnObjective()
-    {
-        //var enemyCount = 2;
-        for (int i = 0; i < _countObjective; i++)
-        {
-            var randomPrefab = GetRandomUnit<BaseObjective>(Faction.Objective);
-            var spawnedObjective = Instantiate(randomPrefab);
-            var randomSpawnTile = GridManager.Instance.GetObjectiveRespawnTile();
-
-            randomSpawnTile.SetUnit(spawnedObjective);
-        }
-        GameManager.Instance.ChangeState(GameState.SpawnObstacle);
-    }
+    
     public void SpawnObstacle()
     {
-        var enemyCount = 1;
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < Obstacle.Length; i++)
         {
             var randomPrefab = GetRandomUnit<BaseObstacle>(Faction.Obstacle);
             var spawnedObstacle = Instantiate(randomPrefab);
-            var randomSpawnTile = GridManager.Instance.GetObstacleRespawnTile();
+            var randomSpawnTile = GridManager.Instance.GetObstacleRespawnTile(Obstacle[i].x, Obstacle[i].y);
 
             randomSpawnTile.SetUnit(spawnedObstacle);
         }
@@ -157,44 +171,65 @@ public class UnitManager : MonoBehaviour
     {
         //temp adalah local variabel string UnitManager
         temp = tiles.name;
+
         //if (curState == state.first)
         //{
         //    addMovement(getVector2(temp));
         //    setState(state.second);
         //}
         //addMovement(getVector2(temp));
-        if(curState == state.first)
+        if (curState == state.first)
+        {
+            addMovement(getVector2(temp));
+            _tiles.Add(tiles);
+            if (_data[0] == Hero[0])
+            {
+                setState(state.second);
+            }
+            else            
+            {
+                _tiles[0]._highlight.SetActive(false);
+                _data.Remove(getVector2(temp));
+                _tiles.Remove(tiles);
+                Debug.Log("Ini salah");
+                
+            }
+        }
+        else if (curState == state.second)
         {
             validation(temp, tiles);
             showList();
         }
-
+        
     }
   
     public void validation(string strz, Tile tlz)
     {
-        if (_data.Count < 2)
-        {
+        
+            if (_data.Count < 2)
+            {
             addMovement(getVector2(strz));
             _tiles.Add(tlz);
-            return;
-            
-        }
-        if(_data.Count >= 2)
-        {
-            if (_data[_data.Count - 2] == getVector2(strz))
-            {
-                _data.RemoveAt(_data.Count - 1);
-                _tiles.RemoveAt(_tiles.Count - 1);
                 return;
+
             }
-            else if (_data[_data.Count-1] != getVector2(strz))
+            if (_data.Count >= 2)
             {
-                addMovement(getVector2(strz));
-                _tiles.Add(tlz);
-                return;
+                if (_data[_data.Count - 2] == getVector2(strz))
+                {
+                    _data.RemoveAt(_data.Count - 1);
+                _tiles[_tiles.Count - 1]._highlight.SetActive(false);
+                    _tiles.RemoveAt(_tiles.Count - 1);
+                    return;
+                }
+                else if (_data[_data.Count - 1] != getVector2(strz))
+                {
+                    addMovement(getVector2(strz));
+                    _tiles.Add(tlz);
+                    return;
+                }
             }
-        } 
+        
     }
     public void addMovement(Vector2 tempz)
     {

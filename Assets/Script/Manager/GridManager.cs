@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     //[SerializeField] public int[] _x,_y;
     [SerializeField] public int _min, _max;
     [SerializeField] private Transform _cam;
-
+    
     private Dictionary<Vector2, Tile> _tiles;
 
     void Awake()
@@ -46,27 +46,31 @@ public class GridManager : MonoBehaviour
         GameManager.Instance.ChangeState(GameState.SpawnHeroes);
     }
 
-    public Tile GetHeroRespawnTile()
-    {        
-        return _tiles.Where(t => t.Key.x == 0 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+    public Tile GetHeroRespawnTile(float x, float y)
+    {
+        //return _tiles.Where(t => t.Key.x == 0 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.First(t => t.Key.x == x && t.Key.y == y && t.Value.Walkable).Value;
     }
     public Tile GetHeroMoveTile(float x, float y)
     {
-        return _tiles.Where(t => t.Key.x == x && t.Key.y == y).OrderBy(t => Random.value).First().Value;
+        //return _tiles.Where(t => t.Key.x == x && t.Key.y == y).OrderBy(t => Random.value).First().Value;
+        return _tiles.First(t => t.Key.x == x && t.Key.y == y).Value;
     }
 
-    public Tile GetEnemyRespawnTile()
+    public Tile GetFlagRespawnTile(float x, float y)
     {
         //return _tiles.Where(t => t.Key.x > _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
-        return _tiles.Where(t => t.Key.x == _width - 1 && t.Key.y == _height / 2).OrderBy(t => Random.value).First().Value;
+        //return _tiles.Where(t => t.Key.x == _width - 1 && t.Key.y == _height / 2).OrderBy(t => Random.value).First().Value;
+        return _tiles.First(t => t.Key.x == x && t.Key.y == y).Value;
     }
-    public Tile GetObjectiveRespawnTile()
+    public Tile GetObjectiveRespawnTile(float x, float y)
     {
-        return _tiles.Where(t => t.Key.x >= _min && t.Key.x <= _max && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.First(t=> t.Key.x==x&& t.Key.y == y).Value;
     }
-    public Tile GetObstacleRespawnTile()
+    public Tile GetObstacleRespawnTile(float x, float y)
     {
-        return _tiles.Where(t => t.Key.x == 1 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.First(t => t.Key.x == x && t.Key.y == y && t.Value.Walkable).Value;
+        //return _tiles.Where(t => t.Key.x == 1 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
     public Tile GetTileAtPosition(Vector2 pos)
     {
