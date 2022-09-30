@@ -14,7 +14,8 @@ public class UnitManager : MonoBehaviour
     public BaseUnit OccupiedUnit;
 
     public BaseHero SelectedHero;
-
+    private bool status = true;
+    private bool finish = false;
 
 
     public List<Vector2> _data = new List<Vector2>();
@@ -151,7 +152,6 @@ public class UnitManager : MonoBehaviour
             var randomPrefab = GetRandomUnit<BaseObstacle>(Faction.Obstacle);
             var spawnedObstacle = Instantiate(randomPrefab);
             var randomSpawnTile = GridManager.Instance.GetObstacleRespawnTile(Obstacle[i].x, Obstacle[i].y);
-
             randomSpawnTile.SetUnit(spawnedObstacle);
         }
         GameManager.Instance.ChangeState(GameState.HeroesTurn);
@@ -178,28 +178,72 @@ public class UnitManager : MonoBehaviour
         //    setState(state.second);
         //}
         //addMovement(getVector2(temp));
-        if (curState == state.first)
+        if (isFinish()==true)
         {
-            addMovement(getVector2(temp));
-            _tiles.Add(tiles);
-            if (_data[0] == Hero[0])
-            {
-                setState(state.second);
-            }
-            else            
-            {
-                _tiles[0]._highlight.SetActive(false);
-                _data.Remove(getVector2(temp));
-                _tiles.Remove(tiles);
-                Debug.Log("Ini salah");
-                
-            }
+            return;
         }
-        else if (curState == state.second)
+        else
         {
-            validation(temp, tiles);
-            showList();
+            if (curState == state.first)
+            {
+                addMovement(getVector2(temp));
+                _tiles.Add(tiles);
+                if (_data[0] == Hero[0])
+                {
+                    setState(state.second);
+                }
+                else
+                {
+                    _tiles[0]._highlight.SetActive(false);
+                    _data.Remove(getVector2(temp));
+                    _tiles.Remove(tiles);
+
+
+                }
+            }
+            else if (curState == state.second)
+            {
+
+                var checkNeighboor = Neighbour(getVector2(temp));
+                if (checkNeighboor)
+                {
+
+                    if (getVector2(temp) != Obstacle[0])
+                    {
+                        setNeighbour(true);
+                        validation(temp, tiles);
+                        showList();
+                        if (_data[_data.Count-1] == Flag[0])
+                        {
+                            setFinisih(true);
+                            //return;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        _data.RemoveAt(_data.Count);
+                        _tiles[_tiles.Count]._highlight.SetActive(false);
+                        _tiles.RemoveAt(_tiles.Count);
+                        Debug.Log("Nabrak Obstacle");
+                    }
+                }
+                else
+                {
+                    setNeighbour(false);
+
+                    Debug.Log("Input salah");
+                    return;
+                }
+
+
+            }
+
         }
+        
         
     }
   
@@ -260,7 +304,50 @@ public class UnitManager : MonoBehaviour
         Vector2 rValue = new Vector2(x, y);
         return rValue;
     }
-    
+    public bool Neighbour(Vector2 vector)
+    {
+        //Pindah Kanan
+        if (vector.x == _data[_data.Count-1].x+1 && vector.y == _data[_data.Count-1].y)
+        {
+            return true;
+        }
+        //Pindah Kiri
+        else if (vector.x == _data[_data.Count - 1].x - 1 && vector.y == _data[_data.Count - 1].y)
+        {
+            return true;
+        }
+        //Pindah atas
+        else if (vector.y == _data[_data.Count - 1].y + 1 && vector.x == _data[_data.Count - 1].x)
+        {
+            return true;
+        }
+        //Pindah bawah
+        else if (vector.y == _data[_data.Count - 1].y - 1 && vector.x == _data[_data.Count - 1].x)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool getNeighbour()
+    {
+        return status;
+    }
+    public void setNeighbour(bool _status)
+    {
+        status = _status;
+    }
+    public bool isFinish()
+    {
+        return finish;
+    }
+    private void setFinisih(bool set)
+    {
+        finish = set;
+    }
+
 
 
 

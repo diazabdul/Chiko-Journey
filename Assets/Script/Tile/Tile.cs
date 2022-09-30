@@ -37,11 +37,11 @@ public class Tile : MonoBehaviour
     {
         
     }
-    public void highlight()
+    public void highlight(bool activator)
     {
         if (curState == state.moving)
         {
-            _highlight.SetActive(true);
+            _highlight.SetActive(activator);
             MenuManager.Instance.ShowTileInfo(this);
             UnitManager.Instance.getPosition(this);
         }        
@@ -72,20 +72,41 @@ public class Tile : MonoBehaviour
         {
             return;
         }
-        highlight();
         if (OccupiedUnit != null)
-        {       
-           if (OccupiedUnit.Faction == Faction.Finish)
+        {
+            
+            if(OccupiedUnit.Faction == Faction.Obstacle)
+            {
+                highlight(false);
+                return;
+            }
+            else if (OccupiedUnit.Faction == Faction.Finish)
                 {
-                UnitManager.Instance.setState(UnitManager.state.freeze);
+                    highlight(true);
+                    UnitManager.Instance.setState(UnitManager.state.freeze);
                     Debug.Log("State Freeze");
                 }
-         }
+            else
+            {
+                
+                highlight(true);
+            }
+        }
+        else
+        {
+            highlight(true);
+        }
         
         
     }
     private void OnMouseExit()
     {
+        if (UnitManager.Instance.getNeighbour() == false)
+        {
+            highlight(false);
+        }
+        if (UnitManager.Instance.isFinish()==true)
+        {
             if (UnitManager.Instance.getState() == UnitManager.state.freeze)
             {
                 if (count == 0)
@@ -94,9 +115,15 @@ public class Tile : MonoBehaviour
                     Debug.Log("Exe");
                     count = 1;
 
-
                 }
             }
+        }
+        else
+        {
+            UnitManager.Instance.setState(UnitManager.state.second);
+            return;
+        }
+        
      
         
     }
@@ -232,4 +259,5 @@ public class Tile : MonoBehaviour
         var objective = (BaseObjective)OccupiedUnit;
         Destroy(objective.gameObject);
     }
+
 }
