@@ -80,7 +80,7 @@ public class Tile : MonoBehaviour
                 highlight(false);
                 return;
             }
-            else if (OccupiedUnit.Faction == Faction.Finish)
+            else if (OccupiedUnit.Faction == Faction.Finish && UnitManager.Instance._data.Count >= UnitManager.Instance.moveSuggest-1)
                 {
                     highlight(true);
                     UnitManager.Instance.setState(UnitManager.state.freeze);
@@ -112,132 +112,132 @@ public class Tile : MonoBehaviour
                 if (count == 0)
                 {
                     UnitManager.Instance.MoveHeroes();
-                    Debug.Log("Exe");
+                    
+                    //Debug.Log("Exe");
                     count = 1;
-
                 }
             }
         }
-        else
-        {
-            UnitManager.Instance.setState(UnitManager.state.second);
-            return;
-        }
+        //else
+        //{
+        //    UnitManager.Instance.setState(UnitManager.state.second);
+        //    return;
+        //}
         
      
         
     }
 
-    private void OnMouseOver()
-    {
+    //private void OnMouseOver()
+    //{
         
 
-        //if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
-        //if (OccupiedUnit != null)
-        //{
-        //    //if (curState == state.freeze)
-        //    //{
-        //    //    return;
-        //    //}
-        //    //highlight();
+    //    //if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
+    //    //if (OccupiedUnit != null)
+    //    //{
+    //    //    //if (curState == state.freeze)
+    //    //    //{
+    //    //    //    return;
+    //    //    //}
+    //    //    //highlight();
 
-        //    //if (OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-        //    if (OccupiedUnit.Faction == Faction.Finish)
-        //    {
-        //        if (UnitManager.Instance.SelectedHero != null)
-        //        {
-        //            var enemy = (BaseFinish)OccupiedUnit;
-        //            Destroy(enemy.gameObject);
-        //            Debug.Log("Finish");
-        //            //UnitManager.Instance.SetSelectedHero(null);
-        //            SetUnit(UnitManager.Instance.SelectedHero);
-        //            //var hero = (BaseHero)OccupiedUnit;
-        //            //UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-        //            //UnitManager.Instance.SetSelectedHero(null);
-        //            //_done = true;
-        //            //SceneManager.LoadScene("Win");
-        //            // MenuManager.Instance.ShowWin(this);
-        //            setState(state.freeze);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (UnitManager.Instance.SelectedHero != null)
-        //        {
-        //            SetUnit(UnitManager.Instance.SelectedHero);
-        //            UnitManager.Instance.SetSelectedHero(null);
-        //        }
-        //    }
-        //}
-
-
+    //    //    //if (OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+    //    //    if (OccupiedUnit.Faction == Faction.Finish)
+    //    //    {
+    //    //        if (UnitManager.Instance.SelectedHero != null)
+    //    //        {
+    //    //            var enemy = (BaseFinish)OccupiedUnit;
+    //    //            Destroy(enemy.gameObject);
+    //    //            Debug.Log("Finish");
+    //    //            //UnitManager.Instance.SetSelectedHero(null);
+    //    //            SetUnit(UnitManager.Instance.SelectedHero);
+    //    //            //var hero = (BaseHero)OccupiedUnit;
+    //    //            //UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+    //    //            //UnitManager.Instance.SetSelectedHero(null);
+    //    //            //_done = true;
+    //    //            //SceneManager.LoadScene("Win");
+    //    //            // MenuManager.Instance.ShowWin(this);
+    //    //            setState(state.freeze);
+    //    //        }
+    //    //    }
+    //    //    else
+    //    //    {
+    //    //        if (UnitManager.Instance.SelectedHero != null)
+    //    //        {
+    //    //            SetUnit(UnitManager.Instance.SelectedHero);
+    //    //            UnitManager.Instance.SetSelectedHero(null);
+    //    //        }
+    //    //    }
+    //    //}
 
 
 
-            //if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
-            //if (OccupiedUnit != null)
-            //{
-            //    if (curState == state.freeze)
-            //    {
-            //        return;
-            //    }
-            //    //highlight();
-            //    if (OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-            //    //if (OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-            //    else if (OccupiedUnit.Faction == Faction.Finish)
-            //    {
-            //        if (UnitManager.Instance.SelectedHero != null)
-            //        {
-            //            var enemy = (BaseFinish)OccupiedUnit;
-            //            Destroy(enemy.gameObject);
-            //            Debug.Log("Finish");
-            //            //UnitManager.Instance.SetSelectedHero(null);
-            //            SetUnit(UnitManager.Instance.SelectedHero);
-            //            var hero = (BaseHero)OccupiedUnit;
-            //            UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-            //            UnitManager.Instance.SetSelectedHero(null);
-            //            _done = true;
-            //            //SceneManager.LoadScene("Win");
-            //            // MenuManager.Instance.ShowWin(this);
-            //            setState(state.freeze);
-            //        }
-            //    }
-            //    else if (OccupiedUnit.Faction == Faction.Objective)
-            //    {
-            //        if (UnitManager.Instance.SelectedHero != null)
-            //        {
-            //            var objective = (BaseObjective)OccupiedUnit;
-            //            Destroy(objective.gameObject);
-            //            Debug.Log("Objective Terambil");
-            //            //UnitManager.Instance.SetSelectedHero(null);
-            //            SetUnit(UnitManager.Instance.SelectedHero);
-            //            var hero = (BaseHero)OccupiedUnit;
-            //            UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-            //            UnitManager.Instance.SetSelectedHero(null);
 
-            //        }
 
-            //    }
-            //    else if (OccupiedUnit.Faction == Faction.Obstacle)
-            //    {
-            //        if (UnitManager.Instance.SelectedHero != null)
-            //        {
-            //            //_highlight.SetActive(false);
-            //            MenuManager.Instance.ShowTileInfo(null);
-            //        }
+    //        //if (GameManager.Instance.GameState != GameState.HeroesTurn) return;
+    //        //if (OccupiedUnit != null)
+    //        //{
+    //        //    if (curState == state.freeze)
+    //        //    {
+    //        //        return;
+    //        //    }
+    //        //    //highlight();
+    //        //    if (OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+    //        //    //if (OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+    //        //    else if (OccupiedUnit.Faction == Faction.Finish)
+    //        //    {
+    //        //        if (UnitManager.Instance.SelectedHero != null)
+    //        //        {
+    //        //            var enemy = (BaseFinish)OccupiedUnit;
+    //        //            Destroy(enemy.gameObject);
+    //        //            Debug.Log("Finish");
+    //        //            //UnitManager.Instance.SetSelectedHero(null);
+    //        //            SetUnit(UnitManager.Instance.SelectedHero);
+    //        //            var hero = (BaseHero)OccupiedUnit;
+    //        //            UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+    //        //            UnitManager.Instance.SetSelectedHero(null);
+    //        //            _done = true;
+    //        //            //SceneManager.LoadScene("Win");
+    //        //            // MenuManager.Instance.ShowWin(this);
+    //        //            setState(state.freeze);
+    //        //        }
+    //        //    }
+    //        //    else if (OccupiedUnit.Faction == Faction.Objective)
+    //        //    {
+    //        //        if (UnitManager.Instance.SelectedHero != null)
+    //        //        {
+    //        //            var objective = (BaseObjective)OccupiedUnit;
+    //        //            Destroy(objective.gameObject);
+    //        //            Debug.Log("Objective Terambil");
+    //        //            //UnitManager.Instance.SetSelectedHero(null);
+    //        //            SetUnit(UnitManager.Instance.SelectedHero);
+    //        //            var hero = (BaseHero)OccupiedUnit;
+    //        //            UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
+    //        //            UnitManager.Instance.SetSelectedHero(null);
 
-            //    }
-            //}
-            //else
-            //{
-            //    if (UnitManager.Instance.SelectedHero != null)
-            //    {
-            //        SetUnit(UnitManager.Instance.SelectedHero);
-            //        UnitManager.Instance.SetSelectedHero(null);
-            //    }
-            //}
+    //        //        }
+
+    //        //    }
+    //        //    else if (OccupiedUnit.Faction == Faction.Obstacle)
+    //        //    {
+    //        //        if (UnitManager.Instance.SelectedHero != null)
+    //        //        {
+    //        //            //_highlight.SetActive(false);
+    //        //            MenuManager.Instance.ShowTileInfo(null);
+    //        //        }
+
+    //        //    }
+    //        //}
+    //        //else
+    //        //{
+    //        //    if (UnitManager.Instance.SelectedHero != null)
+    //        //    {
+    //        //        SetUnit(UnitManager.Instance.SelectedHero);
+    //        //        UnitManager.Instance.SetSelectedHero(null);
+    //        //    }
+    //        //}
       
-    }
+    //}
 
     public void SetUnit(BaseUnit unit)
     {
@@ -249,10 +249,11 @@ public class Tile : MonoBehaviour
     public void DeleteUnit()
     {
         if (OccupiedUnit.Faction == Faction.Hero)
-        {
+        {            
             var hero = (BaseHero)OccupiedUnit;
-            Destroy(hero.gameObject);
+                Destroy(hero.gameObject);            
         }
+
     }
     public void DeleteObjective()
     {

@@ -16,12 +16,12 @@ public class MenuManager : MonoBehaviour
     {
         canva.gameObject.GetComponent<Canvas>();
     }
-    public void ShowWin(Tile tile)
+    public void ShowWin()
     {
-        if(tile._done == true)
-        {
+        //if(tile._done == true)
+        //{
             canva.SetActive(true);
-        }
+        //}
     }
     public void ShowTileInfo(Tile tile)
     {

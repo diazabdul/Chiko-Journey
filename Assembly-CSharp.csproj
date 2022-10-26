@@ -56,11 +56,13 @@
     <Compile Include="Assets\Units\Finish\Finish1.cs" />
     <Compile Include="Assets\Script\Manager\MoveSceneManager.cs" />
     <Compile Include="Assets\Script\Tile\GrassTile.cs" />
-    <Compile Include="Assets\Units\ScriptableUnit.cs" />
+    <Compile Include="Assets\Script\Unit\ScriptableUnit.cs" />
+    <Compile Include="Assets\Units\Obstacle\Obstacle1.cs" />
     <Compile Include="Assets\Units\Heroes\Hero1.cs" />
     <Compile Include="Assets\Units\Heroes\BaseHero.cs" />
     <Compile Include="Assets\Script\Tile\Tile.cs" />
-    <Compile Include="Assets\Units\BaseUnit.cs" />
+    <Compile Include="Assets\Script\Unit\BaseUnit.cs" />
+    <Compile Include="Assets\Units\Obstacle\BaseObstacle.cs" />
     <Compile Include="Assets\Units\Finish\BaseFinish.cs" />
     <Compile Include="Assets\Units\Objective\BaseObjective.cs" />
     <Compile Include="Assets\Script\Manager\MenuManager.cs" />
@@ -69,10 +71,11 @@
     <Compile Include="Assets\Script\Manager\UnitManager.cs" />
     <Compile Include="Assets\Script\Manager\GridManager.cs" />
     <Compile Include="Assets\Units\Objective\Objective1.cs" />
-    <Compile Include="Assets\Units\Obstacle\BaseObstacle.cs" />
-    <Compile Include="Assets\Units\Obstacle\Obstacle1.cs" />
+    <Compile Include="Assets\Script\Manager\LevelManager.cs" />
+    <Compile Include="Assets\Script\Manager\LevelScript.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\Resources\test.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.4f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

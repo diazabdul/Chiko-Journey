@@ -663,3 +663,4 @@ D:\Semester 3\percobaan\New Unity Project - Copy\obj\Debug\Assembly-CSharp.cspro
 D:\Semester 3\percobaan\New Unity Project - Copy\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\Semester 3\percobaan\New Unity Project - Copy\obj\Debug\Assembly-CSharp.dll
 D:\Semester 3\percobaan\New Unity Project - Copy\obj\Debug\Assembly-CSharp.pdb
+D:\Semester 3\percobaan\New Unity Project - Copy\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
