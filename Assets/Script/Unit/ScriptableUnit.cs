@@ -14,5 +14,6 @@ public enum Faction
     Hero = 0,
     Finish = 1,
     Objective = 2,
-    Obstacle = 3
+    Obstacle = 3,
+    Hole = 4
 }

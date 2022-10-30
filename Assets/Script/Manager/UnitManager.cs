@@ -22,10 +22,9 @@ public class UnitManager : MonoBehaviour
     public List<Tile> _tiles = new List<Tile>();
     private Tile spawnHero, spawnObjective;
     
-    public Vector2[] Objective,Hero,Obstacle,Flag;
-    [SerializeField] private int counting = 0;
+    public Vector2[] Objective,Hero,Obstacle,Flag,Hole;
+    public int counting, walkcount, maxWalk = 0;
     private string temp;
-
 
     public enum state
     {
@@ -49,7 +48,7 @@ public class UnitManager : MonoBehaviour
     }
     private void Update()
     {
-        
+
     }
 
     void Awake()
@@ -81,7 +80,6 @@ public class UnitManager : MonoBehaviour
             var randomPrefab = GetRandomUnit<BaseObjective>(Faction.Objective);
             var spawnedObjective = Instantiate(randomPrefab);
             spawnObjective = GridManager.Instance.GetObjectiveRespawnTile(Objective[i].x, Objective[i].y);
-
             spawnObjective.SetUnit(spawnedObjective);
         }
         GameManager.Instance.ChangeState(GameState.SpawnObstacle);
@@ -89,24 +87,14 @@ public class UnitManager : MonoBehaviour
     public void MoveHeroes()
     {
         if (counting >= _data.Count-1)
-        {
-            
+        {            
             return;
         }
         else
         {
             spawnHero.DeleteUnit();
-            //SpawnHeroes();        
-
             StartCoroutine(wait(0.5f));
-            //SaveManager savemanager = new SaveManager();
-            ////savemanager.setSaveStage("1");
-            //savemanager.setJson();
-            //LevelScript lvl = new LevelScript();
-            //lvl.pass();
         }
-
-
     }
     IEnumerator wait(float time)
     {
@@ -118,6 +106,7 @@ public class UnitManager : MonoBehaviour
                 {
                     var destroyz = GridManager.Instance.GetObjectiveRespawnTile(Objective[x].x, Objective[x].y);
                     destroyz.DeleteObjective();
+                    walkcount += 1;
                 }
             }
 
@@ -170,7 +159,23 @@ public class UnitManager : MonoBehaviour
             var randomSpawnTile = GridManager.Instance.GetObstacleRespawnTile(Obstacle[i].x, Obstacle[i].y);
             randomSpawnTile.SetUnit(spawnedObstacle);
         }
+        GameManager.Instance.ChangeState(GameState.SpawnHole);
+    }
+    public void SpawnHole()
+    {
+        if (Hole.Length < 0)
+        {
+            return;
+        }
+        for (int i = 0; i < Hole.Length; i++)
+        {
+            var randomPrefab = GetRandomUnit<BaseObstacle>(Faction.Hole);
+            var spawnedObstacle = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetHoleRespawnTile(Hole[i].x, Hole[i].y);
+            randomSpawnTile.SetUnit(spawnedObstacle);
+        }
         GameManager.Instance.ChangeState(GameState.HeroesTurn);
+
     }
 
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
@@ -193,14 +198,7 @@ public class UnitManager : MonoBehaviour
     }
     public void getPosition(Tile tiles)
     {
-        //temp adalah local variabel string UnitManager
         temp = tiles.name;
-        //if (curState == state.first)
-        //{
-        //    addMovement(getVector2(temp));
-        //    setState(state.second);
-        //}
-        //addMovement(getVector2(temp));
         if(curState == state.freeze)
         {
             return;
@@ -235,9 +233,34 @@ public class UnitManager : MonoBehaviour
                 var checkNeighboor = Neighbour(getVector2(temp));
                 if (checkNeighboor)
                 {
-                    if (Obstacle.Length > 0)
+                    if (Obstacle.Length > 0 && Hole.Length >0)
                     {
-                        if (getVector2(temp) != Obstacle[0])
+                            if (getVector2(temp) != Obstacle[0] && getVector2(temp) != Hole[0])
+                            {
+                                setNeighbour(true);
+                                validation(temp, tiles);
+                                showList();
+                                if (_data[_data.Count - 1] == Flag[0])
+                                {
+                                    setFinisih(true);
+                                    //return;
+                                }
+                                else
+                                {
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                _data.RemoveAt(_data.Count);
+                                _tiles[_tiles.Count]._highlight.SetActive(false);
+                                _tiles.RemoveAt(_tiles.Count);
+                                Debug.Log("Nabrak Obstacle");
+                            }
+                    }
+                    else if (Obstacle.Length > 0)
+                    {
+                        if (getVector2(temp) != Obstacle[0] && getVector2(temp) != Obstacle[1])
                         {
                             setNeighbour(true);
                             validation(temp, tiles);
@@ -289,7 +312,7 @@ public class UnitManager : MonoBehaviour
             {
                 return;
             }
-        }        
+        }
     }
   
     public void validation(string strz, Tile tlz)
@@ -320,6 +343,7 @@ public class UnitManager : MonoBehaviour
     }
     public void addMovement(Vector2 tempz)
     {
+        if(_data.Count>= maxWalk) { return; }
         _data.Add(tempz);
     }
     public void showTiles()

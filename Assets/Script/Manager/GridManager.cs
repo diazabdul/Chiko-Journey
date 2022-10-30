@@ -72,6 +72,10 @@ public class GridManager : MonoBehaviour
         return _tiles.First(t => t.Key.x == x && t.Key.y == y && t.Value.Walkable).Value;
         //return _tiles.Where(t => t.Key.x == 1 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
+    public Tile GetHoleRespawnTile(float x, float y)
+    {
+        return _tiles.First(t => t.Key.x == x && t.Key.y == y).Value;
+    }
     public Tile GetTileAtPosition(Vector2 pos)
     {
         if (_tiles.TryGetValue(pos, out var tile)) return tile;

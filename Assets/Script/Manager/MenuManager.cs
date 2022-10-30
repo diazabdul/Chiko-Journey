@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject;
+    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileWalk, _tileObjective;
     [SerializeField] public GameObject canva;
     void Awake()
     {
@@ -15,6 +15,21 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         canva.gameObject.GetComponent<Canvas>();
+    }
+    private void Update()
+    {
+        showObjective();
+        showWalk();
+    }
+    public void showObjective()
+    {
+        _tileObjective.GetComponentInChildren<Text>().text = UnitManager.Instance.walkcount.ToString();
+        _tileObjective.SetActive(true);
+    }
+    public void showWalk()
+    {
+        _tileWalk.GetComponentInChildren<Text>().text = UnitManager.Instance._data.Count.ToString();
+        _tileWalk.SetActive(true);
     }
     public void ShowWin()
     {
@@ -33,13 +48,13 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        _tileObject.GetComponentInChildren<Text>().text = tile.TileName;
-        _tileObject.SetActive(true);
+        //_tileObject.GetComponentInChildren<Text>().text = tile.TileName;
+        //_tileObject.SetActive(true);
 
         if (tile.OccupiedUnit)
         {
-            _tileUnitObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.UnitName;
-            _tileUnitObject.SetActive(true);
+            //_tileUnitObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.UnitName;
+            //_tileUnitObject.SetActive(true);
         }
     }
 
@@ -50,8 +65,7 @@ public class MenuManager : MonoBehaviour
             _selectedHeroObject.SetActive(false);
             return;
         }
-
-        _selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
-        _selectedHeroObject.SetActive(true);
+        //_selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
+        //_selectedHeroObject.SetActive(true);
     }
 }

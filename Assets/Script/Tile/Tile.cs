@@ -74,7 +74,6 @@ public class Tile : MonoBehaviour
         }
         if (OccupiedUnit != null)
         {
-            
             if(OccupiedUnit.Faction == Faction.Obstacle)
             {
                 highlight(false);
@@ -103,6 +102,7 @@ public class Tile : MonoBehaviour
     {
         if (UnitManager.Instance.getNeighbour() == false)
         {
+            UnitManager.Instance.setNeighbour(true);
             highlight(false);
         }
         if (UnitManager.Instance.isFinish()==true)

@@ -68,11 +68,12 @@
     <Compile Include="Assets\Script\Manager\MenuManager.cs" />
     <Compile Include="Assets\Script\Manager\GameManager.cs" />
     <Compile Include="Assets\Script\Tile\MountainTile.cs" />
+    <Compile Include="Assets\Script\Manager\LevelScript.cs" />
     <Compile Include="Assets\Script\Manager\UnitManager.cs" />
+    <Compile Include="Assets\Script\Manager\LevelManager.cs" />
     <Compile Include="Assets\Script\Manager\GridManager.cs" />
     <Compile Include="Assets\Units\Objective\Objective1.cs" />
-    <Compile Include="Assets\Script\Manager\LevelManager.cs" />
-    <Compile Include="Assets\Script\Manager\LevelScript.cs" />
+    <Compile Include="Assets\Units\Obstacle\Obstacle2.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Resources\test.txt" />
