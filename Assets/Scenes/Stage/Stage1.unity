@@ -1383,7 +1383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedUnit: {fileID: 0}
   SelectedHero: {fileID: 0}
-  moveSuggest: 0
+  moveSuggest: 10
   _data: []
   _tiles: []
   Objective:
@@ -1398,7 +1398,7 @@ MonoBehaviour:
   Hole: []
   counting: 0
   walkcount: 0
-  maxWalk: 5
+  maxWalk: 50
 --- !u!4 &1096332283
 Transform:
   m_ObjectHideFlags: 0
