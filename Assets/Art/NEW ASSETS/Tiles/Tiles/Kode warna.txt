@@ -1,0 +1,11 @@
+Bagian Atas : 
+#96ba5f
+#8eb05a
+#9dbf6b
+#a5c07b
+
+Bagian Tengah : 
+#537229
+
+Bagian Bawah :
+#614e2d

@@ -44,8 +44,7 @@ public class Tile : MonoBehaviour
             _highlight.SetActive(activator);
             MenuManager.Instance.ShowTileInfo(this);
             UnitManager.Instance.getPosition(this);
-        }        
-        
+        }    
     }
     
     public void setState(state _state)
@@ -79,24 +78,50 @@ public class Tile : MonoBehaviour
                 highlight(false);
                 return;
             }
-            else if (OccupiedUnit.Faction == Faction.Finish && UnitManager.Instance._data.Count >= UnitManager.Instance.moveSuggest-1)
+            else if (OccupiedUnit.Faction == Faction.Finish && UnitManager.Instance._data.Count != UnitManager.Instance.maxWalk)
                 {
                     highlight(true);
                     UnitManager.Instance.setState(UnitManager.state.freeze);
                     Debug.Log("State Freeze");
                 }
             else
-            {
-                
+            {                
                 highlight(true);
+                return;
             }
         }
         else
         {
+            //if(UnitManager.Instance.walkingStop == false)
+            //{
+            //    highlight(false);
+            //    return;                
+            //}
+            //else
+            //{
+            //    highlight(true);
+            //}
             highlight(true);
+            return;
+            
         }
-        
-        
+
+        if (UnitManager.Instance.isFinish() == true)
+        {
+            if (OccupiedUnit.Faction == Faction.Finish)
+            {
+                if (UnitManager.Instance.getState() == UnitManager.state.freeze)
+                {
+                    if (count == 0)
+                    {
+                        UnitManager.Instance.MoveHeroes();
+                        //Debug.Log("Exe");
+                        count = 1;
+                    }
+                }
+            }
+        }
+
     }
     private void OnMouseExit()
     {
@@ -105,19 +130,24 @@ public class Tile : MonoBehaviour
             UnitManager.Instance.setNeighbour(true);
             highlight(false);
         }
-        if (UnitManager.Instance.isFinish()==true)
+        if(UnitManager.Instance.walkingStop == false)
         {
-            if (UnitManager.Instance.getState() == UnitManager.state.freeze)
-            {
-                if (count == 0)
-                {
-                    UnitManager.Instance.MoveHeroes();
-                    
-                    //Debug.Log("Exe");
-                    count = 1;
-                }
-            }
+            highlight(false);
+            return;
         }
+        //if (UnitManager.Instance.isFinish()==true)
+        //{
+        //    if (UnitManager.Instance.getState() == UnitManager.state.freeze)
+        //    {
+        //        if (count == 0)
+        //        {
+        //            UnitManager.Instance.MoveHeroes();
+                    
+        //            //Debug.Log("Exe");
+        //            count = 1;
+        //        }
+        //    }
+        //}
         //else
         //{
         //    UnitManager.Instance.setState(UnitManager.state.second);
@@ -255,10 +285,26 @@ public class Tile : MonoBehaviour
         }
 
     }
+    public void moveUnit(Vector2 open)
+    {
+        if(OccupiedUnit.Faction == Faction.Hero)
+        {
+            var hero = (BaseHero)OccupiedUnit;
+            //hero.gameObject.transform.position = Vector2.MoveTowards(open, new Vector2(close.x, close.y),time*Time.deltaTime);
+            //hero.transform.position = Vector2.MoveTowards(open, close, time * Time.fixedDeltaTime);
+            //hero.transform.Translate(new Vector2(open.x, open.y) * 100f * Time.deltaTime);
+            hero.transform.position = Vector3.MoveTowards(hero.transform.position, open, 5f * Time.deltaTime);
+        }
+    }
     public void DeleteObjective()
     {
         var objective = (BaseObjective)OccupiedUnit;
         Destroy(objective.gameObject);
+    }
+    public void getAnimator(BaseUnit unit)
+    {
+        var hero = (BaseHero)OccupiedUnit;
+        hero.GetComponent<Animator>();
     }
 
 }

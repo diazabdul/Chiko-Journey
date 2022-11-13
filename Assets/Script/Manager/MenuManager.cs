@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
-    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileWalk, _tileObjective;
+    [SerializeField] private GameObject _selectedHeroObject, _tileObject, _tileUnitObject, _tileWalk, _tileObjective, _maxObjective, _maxWalk;
     [SerializeField] public GameObject canva;
     void Awake()
     {
@@ -15,6 +15,8 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         canva.gameObject.GetComponent<Canvas>();
+        _maxObjective.GetComponent<Text>().text = UnitManager.Instance.Objective.Length.ToString();
+        _maxWalk.GetComponent<Text>().text = UnitManager.Instance.maxWalk.ToString();
     }
     private void Update()
     {

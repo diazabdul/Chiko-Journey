@@ -22,8 +22,8 @@ MonoBehaviour:
   nameTile: 
   check: 0
   way: 1
-  _baseColor: {r: 0.14117648, g: 0.52156866, b: 0.33333334, a: 1}
-  _offsetColor: {r: 0.09411766, g: 0.4784314, b: 0.31764707, a: 1}
+  _baseColor: {r: 0.5882353, g: 0.7294118, b: 0.37254903, a: 1}
+  _offsetColor: {r: 0.5568628, g: 0.6901961, b: 0.3529412, a: 1}
 --- !u!1001 &5309177071325400351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,12 +101,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680018768668304619, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+    - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1

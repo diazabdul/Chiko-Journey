@@ -23,8 +23,11 @@ public class UnitManager : MonoBehaviour
     private Tile spawnHero, spawnObjective;
     
     public Vector2[] Objective,Hero,Obstacle,Flag,Hole;
-    public int counting, walkcount, maxWalk = 0;
+    public int counting, walkcount, maxWalk;
     private string temp;
+    public Transform movePoint;
+    public bool walkingStop = false;
+    private Animator anim;
 
     public enum state
     {
@@ -44,10 +47,20 @@ public class UnitManager : MonoBehaviour
     }
     private void Start()
     {
-        setState(state.first);       
+        setState(state.first);
+        
+        
     }
     private void Update()
     {
+        if (_data.Count == 1)
+        {
+            movePoint.position = new Vector3(_data[_data.Count-1].x, _data[_data.Count - 1].y, 0f);
+        }
+        if (_data.Count > 0)
+        {
+            spawnHero.moveUnit(movePoint.position);   
+        }
 
     }
 
@@ -65,13 +78,14 @@ public class UnitManager : MonoBehaviour
             {
                 var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
                 var spawnedHero = Instantiate(randomPrefab);
-                spawnHero = GridManager.Instance.GetHeroRespawnTile(Hero[i].x, Hero[i].y);
-
+                spawnHero = GridManager.Instance.GetHeroRespawnTile(Hero[i].x, Hero[i].y);                
                 spawnHero.SetUnit(spawnedHero);
+                anim = spawnedHero.GetComponent<Animator>();
             }
             GameManager.Instance.ChangeState(GameState.SpawnFlag);        
         
     }
+
     public void SpawnObjective()
     {
         //var enemyCount = 2;
@@ -84,6 +98,12 @@ public class UnitManager : MonoBehaviour
         }
         GameManager.Instance.ChangeState(GameState.SpawnObstacle);
     }
+
+    public void moveUpdate()
+    {
+        
+    }
+
     public void MoveHeroes()
     {
         if (counting >= _data.Count-1)
@@ -91,10 +111,36 @@ public class UnitManager : MonoBehaviour
             return;
         }
         else
-        {
-            spawnHero.DeleteUnit();
-            StartCoroutine(wait(0.5f));
+        {            
+            Debug.Log("Halo");
+            
+            //spawnHero.DeleteUnit();
+            anim.SetBool("Walk", true);
+            StartCoroutine(walkingWait(0.3f));
         }
+    }
+    IEnumerator walkingWait(float time)
+    {
+        for(int i = 0; i < _data.Count; i++)
+        {          
+            movePoint.position = new Vector3(_data[i].x, _data[i].y, 0f);            
+            for (int x = 0; x < Objective.Length; x++)
+            {
+                if (Objective[x] == _data[i])
+                {
+                    var destroyz = GridManager.Instance.GetObjectiveRespawnTile(Objective[x].x, Objective[x].y);
+                    destroyz.DeleteObjective();
+                    walkcount += 1;
+                }
+            }
+            yield return new WaitForSeconds(time);
+            counting += 1;
+            if (counting == _data.Count)
+            {
+                MenuManager.Instance.ShowWin();
+            }
+            
+        }        
     }
     IEnumerator wait(float time)
     {
@@ -131,7 +177,6 @@ public class UnitManager : MonoBehaviour
             }
         }
     }
-
 
     public void SpawnFlag()
     {
@@ -211,9 +256,9 @@ public class UnitManager : MonoBehaviour
         {
             if (curState == state.first)
             {
-                addMovement(getVector2(temp));
+                addMovement(getVector2(temp),tiles);
                 //_data.Add(getVector2(temp));
-                _tiles.Add(tiles);
+                //_tiles.Add(tiles);
                 if (_data[0] == Hero[0])
                 {
                     //_tiles[0]._highlight.SetActive(true);
@@ -225,7 +270,7 @@ public class UnitManager : MonoBehaviour
                     _tiles[0]._highlight.SetActive(false);
                     _data.Remove(getVector2(temp));
                     _tiles.Remove(tiles);
-                    Debug.Log("Hello Madafaka");
+                    //Debug.Log("Hello Madafaka");
                 }
             }
             if (curState == state.second)
@@ -233,9 +278,9 @@ public class UnitManager : MonoBehaviour
                 var checkNeighboor = Neighbour(getVector2(temp));
                 if (checkNeighboor)
                 {
-                    if (Obstacle.Length > 0 && Hole.Length >0)
+                    if (Obstacle.Length == 1)
                     {
-                            if (getVector2(temp) != Obstacle[0] && getVector2(temp) != Hole[0])
+                            if (getVector2(temp) != Obstacle[0])
                             {
                                 setNeighbour(true);
                                 validation(temp, tiles);
@@ -258,9 +303,34 @@ public class UnitManager : MonoBehaviour
                                 Debug.Log("Nabrak Obstacle");
                             }
                     }
-                    else if (Obstacle.Length > 0)
+                    else if (Obstacle.Length == 2)
                     {
                         if (getVector2(temp) != Obstacle[0] && getVector2(temp) != Obstacle[1])
+                        {
+                            setNeighbour(true);
+                            validation(temp, tiles);
+                            showList();
+                            if (_data[_data.Count - 1] == Flag[0])
+                            {
+                                setFinisih(true);
+                                //return;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            _data.RemoveAt(_data.Count);
+                            _tiles[_tiles.Count]._highlight.SetActive(false);
+                            _tiles.RemoveAt(_tiles.Count);
+                            Debug.Log("Nabrak Obstacle");
+                        }
+                    }
+                    else if (Obstacle.Length == 3)
+                    {
+                        if (getVector2(temp) != Obstacle[0] && getVector2(temp) != Obstacle[1] && getVector2(temp) != Obstacle[2])
                         {
                             setNeighbour(true);
                             validation(temp, tiles);
@@ -319,8 +389,8 @@ public class UnitManager : MonoBehaviour
     {
         if (_data.Count < 2)
         {
-            addMovement(getVector2(strz));
-            _tiles.Add(tlz);
+            addMovement(getVector2(strz),tlz);
+            //_tiles.Add(tlz);
             return;
 
         }
@@ -335,16 +405,26 @@ public class UnitManager : MonoBehaviour
             }
             else if (_data[_data.Count - 1] != getVector2(strz))
             {
-                addMovement(getVector2(strz));
-                _tiles.Add(tlz);
+                addMovement(getVector2(strz),tlz);
+                //_tiles.Add(tlz);
                 return;
             }
         }
     }
-    public void addMovement(Vector2 tempz)
+    public void addMovement(Vector2 tempz, Tile tiles)
     {
-        if(_data.Count>= maxWalk) { return; }
-        _data.Add(tempz);
+        if(_data.Count >= maxWalk)
+        {
+            walkingStop = false;
+            return;
+        }
+        else
+        {
+            walkingStop = true;
+            _data.Add(tempz);
+            _tiles.Add(tiles);
+        }
+
     }
     public void showTiles()
     {

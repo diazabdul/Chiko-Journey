@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac7106f156505148af89e44a664cec7, type: 3}
+  m_Name: Obstacle3
+  m_EditorClassIdentifier: 
+  Faction: 4
+  UnitPrefab: {fileID: -2715812868708152407, guid: 3f62457cd2fa91b4bbaac88036c1c434, type: 3}

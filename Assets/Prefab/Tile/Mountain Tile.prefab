@@ -16,7 +16,12 @@ MonoBehaviour:
   _renderer: {fileID: 692070010060356906}
   _highlight: {fileID: 5028442159651155758}
   _isWalkable: 0
+  _done: 0
   OccupiedUnit: {fileID: 0}
+  tiled: []
+  nameTile: 
+  check: 0
+  way: 1
 --- !u!1001 &3541523607427371272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,19 +79,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_Color.b
-      value: 0.019607844
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_Color.g
-      value: 0.6745098
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_Color.r
-      value: 0.93333334
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4088352520903552034, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5717551622938520442, guid: 8c780fd7ddd0b064e984fdefe1d07008, type: 3}
       propertyPath: m_Name

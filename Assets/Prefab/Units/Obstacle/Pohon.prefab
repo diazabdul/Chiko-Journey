@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4179719773220304320}
   - component: {fileID: 2093632332606005880}
   - component: {fileID: 2573391973019857182}
+  - component: {fileID: -7699234294795015649}
   m_Layer: 0
   m_Name: Pohon
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5132336336641417976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.18, y: 0.18, z: 1}
+  m_LocalPosition: {x: -0.3023, y: -0.3446, z: 0}
+  m_LocalScale: {x: 0.043214906, y: 0.043214906, z: 0.2400828}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,3 +99,22 @@ MonoBehaviour:
   UnitName: Tree
   OccupiedTile: {fileID: 0}
   Faction: 3
+--- !u!95 &-7699234294795015649
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5132336336641417976}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 256152d0b2c2ed44e801b49db45ebe17, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
